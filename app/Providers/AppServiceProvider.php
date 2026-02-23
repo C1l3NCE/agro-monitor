@@ -8,6 +8,7 @@ use App\Policies\FieldPolicy;
 use Illuminate\Support\Facades\Gate;
 use App\Models\AiAnalysis;
 use App\Policies\AiAnalysisPolicy;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
