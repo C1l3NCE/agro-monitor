@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
     zip \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip
+    nodejs \
+    npm \
+    && docker-php-ext-install pdo pdo_pgsql zip
 
 # Установка Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -18,10 +20,14 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Копируем проект
 COPY . .
 
-# Устанавливаем зависимости
+# PHP зависимости
 RUN composer install --no-dev --optimize-autoloader
 
-# Генерируем ключ если нужно
+# Установка и сборка фронта
+RUN npm install
+RUN npm run build
+
+# Миграции
 RUN php artisan key:generate || true
 
 EXPOSE 10000
