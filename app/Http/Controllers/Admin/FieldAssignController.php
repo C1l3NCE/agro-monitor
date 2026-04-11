@@ -15,11 +15,27 @@ class FieldAssignController extends Controller
         return view('admin.users.assign', compact('user', 'fields'));
     }
 
-    public function update(Request $request, User $user)
-    {
-        Field::whereIn('id', $request->fields ?? [])
-            ->update(['user_id' => $user->id]);
-
-        return redirect()->route('admin.users.index');
+    public function update(User $user, Request $request)
+{
+    // ❌ Админ не может иметь поля
+    if ($user->role === 'admin') {
+        return back()->with('error', 'Администратору нельзя назначать поля');
     }
+
+    $fieldIds = $request->input('fields', []);
+
+    // 🔄 Убираем все поля у пользователя (делаем их ничьими)
+    Field::where('user_id', $user->id)->update([
+        'user_id' => null
+    ]);
+
+    // ✅ Назначаем только свободные поля
+    Field::whereIn('id', $fieldIds)
+        ->whereNull('user_id')
+        ->update([
+            'user_id' => $user->id
+        ]);
+
+    return back()->with('success', 'Поля обновлены');
+}
 }
