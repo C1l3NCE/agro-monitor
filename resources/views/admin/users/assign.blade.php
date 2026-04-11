@@ -12,7 +12,7 @@
                 border border-gray-200
                 p-8">
 
-            <form method="POST" action="{{ route('users.fields.update', $user) }}" class="space-y-8">
+            <form method="POST" action="{{ route('admin.users.fields.update', $user) }}" class="space-y-8">
                 @csrf
                 @method('PUT')
 
@@ -101,7 +101,7 @@
                 <!-- Кнопки -->
                 <div class="flex justify-between items-center pt-6 border-t border-gray-100">
 
-                    <a href="{{ route('users.fields.update', $user) }}"
+                    <a href="{{ route('admin.users.fields.update', $user) }}"
                         class="text-sm text-gray-500 hover:text-gray-800 transition">
                         Назад
                     </a>
