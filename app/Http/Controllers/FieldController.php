@@ -56,7 +56,7 @@ class FieldController extends Controller
         ]);
 
         $field = Field::create([
-            'user_id' => Auth::id(),
+            'user_id' => null,
             'name' => $request->name,
             'crop' => $request->crop,
             'area' => $request->area,
